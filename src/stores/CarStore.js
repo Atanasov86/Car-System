@@ -9,11 +9,21 @@ class CarStore extends EventEmitter {
       .then(data => this.emit(this.eventTypes.CAR_CREATED, data))
   }
 
+  delete (id) {
+    CarData.delete(id)
+      .then(data => this.emit(this.eventTypes.CAR_DELETED, data))
+  }
+
   all (page, search) {
     page = page || 1
     search = search || ''
     CarData.all(page, search)
       .then(data => this.emit(this.eventTypes.CARS_RETRIEVED, data))
+  }
+
+  allUserCars () {
+    CarData.userCars()
+      .then(data => this.emit(this.eventTypes.USER_CARS_RETRIEVED, data))
   }
 
   getCar (id) {
@@ -37,8 +47,16 @@ class CarStore extends EventEmitter {
         this.create(action.car)
         break
       }
+      case carActions.types.DELETE_CAR: {
+        this.delete(action.id)
+        break
+      }
       case carActions.types.ALL_CARS: {
         this.all(action.page, action.search)
+        break
+      }
+      case carActions.types.ALL_USER_CARS: {
+        this.allUserCars()
         break
       }
       case carActions.types.CAR_DETAILS: {
@@ -61,7 +79,9 @@ class CarStore extends EventEmitter {
 let carStore = new CarStore()
 carStore.eventTypes = {
   CAR_CREATED: 'car_created',
+  CAR_DELETED: 'car_deleted',
   CARS_RETRIEVED: 'car_retrived',
+  USER_CARS_RETRIEVED: 'user_cars_retrieved',
   CAR_DETAILS_RETRIEVED: 'car_details_retrieved',
   REVIEW_CREATED: 'review_created',
   CAR_LIKED: 'car_liked'

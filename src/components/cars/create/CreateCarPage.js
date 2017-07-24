@@ -3,6 +3,7 @@ import CarForm from './CarForm'
 import FormHelper from '../../common/forms/FormHelpers'
 import carActions from '../../../actions/CarActions'
 import carStore from '../../../stores/CarStore'
+import validator from 'validator'
 import toastr from 'toastr'
 
 class CreateCarPage extends React.Component {
@@ -56,7 +57,7 @@ class CreateCarPage extends React.Component {
   handleCarForm (event) {
     event.preventDefault()
     // Validate form
-    if (this.validateCar()) {
+    if (!this.validateCar()) {
       return
     }
     carActions.createCar(this.state.car)
@@ -67,32 +68,32 @@ class CreateCarPage extends React.Component {
     let isValidForm = true
     let error = ''
 
-    if (car.make || car.make.length > 3) {
+    if (validator.isEmpty(car.make) || car.make.length < 3) {
       error = 'Make cannot be empty and at least more than 3 symbols.'
       isValidForm = false
     }
 
-    if (car.model || car.model > 3) {
+    if (validator.isEmpty(car.model) || car.model < 3) {
       error = 'Model cannot be empty and at least more than 3 symbols.'
       isValidForm = false
     }
 
-    if (car.year || car.year < 1950 || car.year > 2050) {
+    if (car.year < 1950 || car.year > 2050) {
       error = 'Year must be between 1950 and 2050.'
       isValidForm = false
     }
 
-    if (car.engine || car.engine > 1) {
+    if (validator.isEmpty(car.engine) || car.engine.length < 1) {
       error = 'Engine must be more than 1 symbol.'
       isValidForm = false
     }
 
-    if (car.price || car.price < 0) {
+    if (car.price < 0) {
       error = 'Price must be a positive number.'
       isValidForm = false
     }
 
-    if (car.image) {
+    if (validator.isEmpty(car.image)) {
       error = 'Image URL is required.'
       isValidForm = false
     }

@@ -19,12 +19,14 @@ class LoginPage extends React.Component {
     }
     this.handleUserLogin = this.handleUserLogin.bind(this)
 
-    userStore.on(userStore.eventTypes.USER_LOGGED,
+    userStore.on(
+      userStore.eventTypes.USER_LOGGED,
       this.handleUserLogin)
   }
 
   componentWillUnmount () {
-    userStore.removeListener(userStore.eventTypes.USER_LOGGED,
+    userStore.removeListener(
+      userStore.eventTypes.USER_LOGGED,
       this.handleUserLogin)
   }
 
@@ -45,8 +47,11 @@ class LoginPage extends React.Component {
         error: data.message
       })
     } else {
+      let user = data.user
+      user.email = this.state.user.email
+
       Auth.authenticateUser(data.token)
-      Auth.saveUser(data.user)
+      Auth.saveUser(user)
       toastr.success(data.message)
       this.props.history.push('/')
     }

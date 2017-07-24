@@ -2,6 +2,7 @@ import React from 'react'
 import CarReviews from '../review/CarReviews'
 import carActions from '../../../actions/CarActions'
 import carStore from '../../../stores/CarStore'
+import toastr from 'toastr'
 
 class CarDetailsPage extends React.Component {
   constructor (props) {
@@ -13,7 +14,7 @@ class CarDetailsPage extends React.Component {
       id: id,
       car: {},
       reviews: [],
-      isLikedCar: false,
+      liked: false,
       error: ''
     }
 
@@ -33,22 +34,23 @@ class CarDetailsPage extends React.Component {
   }
 
   handleLikeData (data) {
-    debugger
-    console.log(this.state.car)
+    if (!data.success) {
+      this.setState({
+        liked: true
+      })
+      toastr.error(data.message)
+    } else {
+      this.setState({
+        liked: true
+      })
+      toastr.success(data.message)
+    }
     console.log(data)
   }
 
   handleLikeClick (event) {
     event.preventDefault()
-    let car = this.state.car
-
     carActions.likeCar(this.state.car.id)
-
-    car.likes++
-    this.setState({
-      car,
-      isLikedCar: true
-    })
   }
 
   componentDidMount () {
@@ -77,7 +79,7 @@ class CarDetailsPage extends React.Component {
             <h4>Engine: {this.state.car.engine}</h4>
             <h4>Mileage: {this.state.car.mileage}</h4>
             <h4>Price: {this.state.car.price} lv. at day</h4>
-            <button disabled={this.state.isLikedCar} className='btn btn-block btn-primary' onClick={this.handleLikeClick.bind(this)}>
+            <button disabled={this.state.liked} className='btn btn-block btn-primary' onClick={this.handleLikeClick.bind(this)}>
               <i className='fa fa-thumbs-up'>Like</i>
             </button>
           </div>

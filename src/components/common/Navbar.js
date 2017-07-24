@@ -61,6 +61,8 @@ class Navbar extends React.Component {
               <div className='collapse navbar-collapse'>
                 <ul className='nav navbar-nav navbar-right' >
                   <li><Link to='/auth/profile'>{this.state.username}</Link></li>
+                  <li><Link to='/cars/mine'>My Cars</Link></li>
+                  
                   <li><Link to='/auth/logout'>Logout</Link></li>
                 </ul>
               </div>

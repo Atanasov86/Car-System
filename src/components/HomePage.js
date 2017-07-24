@@ -60,7 +60,7 @@ class HomePage extends Component {
 
   render () {
     const cars = this.state.cars.map(car => (
-      <CarListing key={car.id} {...car} />
+      <CarListing key={car.id} {...car} hidden='true' />
     ))
 
     return (

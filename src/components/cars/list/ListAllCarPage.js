@@ -114,7 +114,7 @@ class ListAllCarsPage extends React.Component {
 
     if (this.state.cars.length !== 0) {
       cars = this.state.cars.map(car => (
-        <CarListing key={car.id} {...car} />
+        <CarListing key={car.id} {...car} hidden='true' />
     ))
     }
 

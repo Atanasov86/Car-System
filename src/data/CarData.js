@@ -7,11 +7,19 @@ class CarData {
     return Data.post(`${baseUrl}/create/`, car, true)
   }
 
+  static delete (id) {
+    return Data.post(`${baseUrl}/delete/${id}`, {}, true)
+  }
+
   static all (page, search) {
     page = page || 1
     search = search || ''
 
     return Data.get(`${baseUrl}/all?page=${page}&search=${search}`)
+  }
+
+  static userCars () {
+    return Data.get(`${baseUrl}/mine`, true)
   }
 
   static getCar (id) {

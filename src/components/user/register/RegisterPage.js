@@ -77,7 +77,7 @@ class RegisterPage extends React.Component {
       error = 'Please provide your name.'
       formIsValid = false
     }
-    console.log(validator.isEmail(user.email))
+
     if (!validator.isEmail(user.email) || validator.isEmpty(user.email)) {
       error = 'Your email address is invalid'
       formIsValid = false
