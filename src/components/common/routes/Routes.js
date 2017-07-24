@@ -8,7 +8,6 @@ import LogoutPage from '../../user/LogoutPage'
 import CreateCarPage from '../../cars/create/CreateCarPage'
 import ListAllCars from '../../cars/list/ListAllCarPage'
 import CarDetailsPage from '../../cars/details/CarDetailsPage'
-// import CarReviewPage from '../../cars/details/CarDetailsPage'
 
 const Routes = () => (
   <Switch>
@@ -20,6 +19,7 @@ const Routes = () => (
     <PrivateRoute path='/cars/all' component={ListAllCars} />
     <PrivateRoute path='/cars/details/:id' component={CarDetailsPage} />
     <PrivateRoute path='/cars/details/:id/reviews/create' component={CarDetailsPage} />
+    <PrivateRoute path='/cars/details/:id/like' component={CarDetailsPage} />
   </Switch>
 )
 

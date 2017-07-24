@@ -5,7 +5,8 @@ const carActions = {
     CREATE_CAR: 'CREATE_CAR',
     ALL_CARS: 'ALL_CARS',
     CAR_DETAILS: 'CAR_DETAILS',
-    CREATE_REVIEW: 'CREATE_REVIEW'
+    CREATE_REVIEW: 'CREATE_REVIEW',
+    LIKE_CAR: 'LIKE_CAR'
   },
   createCar (car) {
     dispatcher.dispatch({
@@ -32,6 +33,12 @@ const carActions = {
     dispatcher.dispatch({
       type: this.types.CREATE_REVIEW,
       review,
+      id
+    })
+  },
+  likeCar (id) {
+    dispatcher.dispatch({
+      type: this.types.LIKE_CAR,
       id
     })
   }

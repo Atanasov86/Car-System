@@ -1,51 +1,68 @@
 import React from 'react'
-import FormHelpers from '../../common/forms/FormHelpers'
-import CarReviewForm from '../details/CarReviewForm'
+import CarReviews from '../review/CarReviews'
 import carActions from '../../../actions/CarActions'
 import carStore from '../../../stores/CarStore'
 
-class DetailsPage extends React.Component {
+class CarDetailsPage extends React.Component {
   constructor (props) {
     super(props)
 
+    const id = this.props.match.params.id
+
     this.state = {
+      id: id,
       car: {},
-      newReview: '',
       reviews: [],
+      isLikedCar: false,
       error: ''
     }
 
     this.handleCarRetrieved = this.handleCarRetrieved.bind(this)
+    this.handleLikeData = this.handleLikeData.bind(this)
 
     carStore.on(
       carStore.eventTypes.CAR_DETAILS_RETRIEVED,
       this.handleCarRetrieved)
+    carStore.on(
+      carStore.eventTypes.CAR_LIKED,
+      this.handleLikeData)
   }
 
   handleCarRetrieved (car) {
-    this.setState({car})
+    this.setState({ car })
   }
 
-  handleReviewChange (event) {
-    FormHelpers.handleFormChange.bind(this)(event, 'newReview')
+  handleLikeData (data) {
+    debugger
+    console.log(this.state.car)
+    console.log(data)
   }
 
-  handleReviewForm (event) {
+  handleLikeClick (event) {
     event.preventDefault()
-    const id = this.props.match.params.id
-    //validate 
-    carActions.createReview(this.state.newReview, id)
+    let car = this.state.car
+
+    carActions.likeCar(this.state.car.id)
+
+    car.likes++
+    this.setState({
+      car,
+      isLikedCar: true
+    })
   }
 
   componentDidMount () {
-    const id = this.props.match.params.id
-    carActions.getCarById(id)
+    carActions.getCarById(this.state.id)
   }
 
-  componentWillunmount () {
+  componentWillUnmount () {
     carStore.removeListener(
       carStore.eventTypes.CAR_DETAILS_RETRIEVED,
       this.handleCarRetrieved)
+
+    carStore.removeListener(
+      carStore.eventTypes.CAR_LIKED,
+      this.handleLikeData)
   }
 
   render () {
@@ -60,17 +77,20 @@ class DetailsPage extends React.Component {
             <h4>Engine: {this.state.car.engine}</h4>
             <h4>Mileage: {this.state.car.mileage}</h4>
             <h4>Price: {this.state.car.price} lv. at day</h4>
+            <button disabled={this.state.isLikedCar} className='btn btn-block btn-primary' onClick={this.handleLikeClick.bind(this)}>
+              <i className='fa fa-thumbs-up'>Like</i>
+            </button>
           </div>
-        </div>
-        <CarReviewForm
-          reviews={this.state.reviews}
-          error={this.state.error}
-          onChange={this.handleReviewChange.bind(this)}
-          onSave={this.handleReviewForm.bind(this)} />
-      </div>
 
+          <CarReviews
+            reviews={this.state.reviews}
+            error={this.state.error}
+            carId={this.state.id}
+          />
+        </div>
+      </div>
     )
   }
 }
 
-export default DetailsPage
+export default CarDetailsPage

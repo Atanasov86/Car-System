@@ -18,8 +18,16 @@ class CarData {
     return Data.get(`${baseUrl}/details/${id}`, true)
   }
 
-  static createReview (review, id) {
-    return Data.post(`${baseUrl}/details/${id}/reviews/create`, true)
+  static createReview (id, review) {
+    return Data.post(`${baseUrl}/details/${id}/reviews/create`, review, true)
+  }
+
+  static allReviews (id) {
+    return Data.get(`${baseUrl}/details/${id}/reviews`, true)
+  }
+
+  static likeCar (id) {
+    return Data.post(`${baseUrl}/details/${id}/like`, {}, true)
   }
 }
 

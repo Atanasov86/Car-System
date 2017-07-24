@@ -22,6 +22,10 @@ body {
     box-shadow:0 1px 0 #cfcfcf;
 }
 
+.mb-20 {
+    margin-bottom: 20px;
+}
+
 .form-error {
     color: red;
 }
@@ -53,6 +57,11 @@ h4 {
 
 .row .pagination {
     margin-bottom: 20px;
+}
+
+.caption .btn {
+    width: 25%;
+    margin: 0 auto;
 }
 
 textarea {

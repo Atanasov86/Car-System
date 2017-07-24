@@ -26,6 +26,11 @@ class CarStore extends EventEmitter {
       .then(data => this.emit(this.eventTypes.REVIEW_CREATED, data))
   }
 
+  like (id) {
+    CarData.likeCar(id)
+      .then(data => this.emit(this.eventTypes.CAR_LIKED, data))
+  }
+
   handleAction (action) {
     switch (action.type) {
       case carActions.types.CREATE_CAR: {
@@ -44,6 +49,10 @@ class CarStore extends EventEmitter {
         this.createReview(action.review, action.id)
         break
       }
+      case carActions.types.LIKE_CAR: {
+        this.like(action.id)
+        break
+      }
       default: break
     }
   }
@@ -54,7 +63,8 @@ carStore.eventTypes = {
   CAR_CREATED: 'car_created',
   CARS_RETRIEVED: 'car_retrived',
   CAR_DETAILS_RETRIEVED: 'car_details_retrieved',
-  REVIEW_CREATED: 'review_created'
+  REVIEW_CREATED: 'review_created',
+  CAR_LIKED: 'car_liked'
 }
 
 dispatcher.register(carStore.handleAction.bind(carStore))
