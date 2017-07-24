@@ -116,7 +116,7 @@ router.get('/details/:id', authCheck, (req, res) => {
     price: car.price,
     image: car.image,
     createdOn: car.createdOn,
-    likes: car.likes.length
+    likes: car.likes
   }
 
   if (car.mileage) {

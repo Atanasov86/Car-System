@@ -2,6 +2,7 @@ import React from 'react'
 import CarReviews from '../review/CarReviews'
 import carActions from '../../../actions/CarActions'
 import carStore from '../../../stores/CarStore'
+import Auth from '../../user/Auth'
 import toastr from 'toastr'
 
 class CarDetailsPage extends React.Component {
@@ -31,6 +32,10 @@ class CarDetailsPage extends React.Component {
 
   handleCarRetrieved (car) {
     this.setState({ car })
+    let isLiked = this.isAlreadyLikedCar(car.likes)
+    this.setState({
+      liked: isLiked
+    })
   }
 
   handleLikeData (data) {
@@ -45,7 +50,16 @@ class CarDetailsPage extends React.Component {
       })
       toastr.success(data.message)
     }
-    console.log(data)
+  }
+
+  isAlreadyLikedCar (likes) {
+    let user = Auth.getUser()
+    console.log(likes.indexOf(user.email))
+    if (likes.indexOf(user.email) >= 0) {
+      return true
+    }
+
+    return false
   }
 
   handleLikeClick (event) {
